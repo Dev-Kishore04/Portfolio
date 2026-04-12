@@ -19,78 +19,77 @@
 html{scroll-behavior:auto;overflow-x:hidden;}
 body{background:var(--light);color:var(--dark);font-family:var(--fb);overflow-x:hidden;cursor:none;}
 
-/* CURSOR */
-#cursor{position:fixed;width:12px;height:12px;background:var(--dark);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:multiply;transition:width .3s,height .3s,background .3s;}
-#cursor-ring{position:fixed;width:40px;height:40px;border:1.5px solid rgba(0,0,0,.3);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .4s,height .4s,border-color .3s;}
-body.ch #cursor{width:20px;height:20px;background:var(--lime);}
-body.ch #cursor-ring{width:60px;height:60px;border-color:var(--lime);}
+/* ===== CURSOR (desktop only) ===== */
+#cursor,#cursor-ring{display:none;}
+@media(hover:hover) and (pointer:fine){
+  body{cursor:none;}
+  #cursor{position:fixed;width:12px;height:12px;background:var(--dark);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:multiply;transition:width .3s,height .3s,background .3s;display:block;}
+  #cursor-ring{position:fixed;width:40px;height:40px;border:1.5px solid rgba(0,0,0,.3);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .4s,height .4s,border-color .3s;display:block;}
+  body.ch #cursor{width:20px;height:20px;background:var(--lime);}
+  body.ch #cursor-ring{width:60px;height:60px;border-color:var(--lime);}
+}
 
-/* LOADER */
+/* ===== LOADER ===== */
 #loader{position:fixed;inset:0;background:var(--dark);z-index:10000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;}
-.loader-name{font-family:var(--fh);font-size:80px;color:#fff;letter-spacing:4px;overflow:hidden;}
+.loader-name{font-family:var(--fh);font-size:clamp(40px,12vw,80px);color:#fff;letter-spacing:4px;overflow:hidden;}
 .loader-name span{display:inline-block;transform:translateY(100%);}
-.loader-bar-wrap{width:200px;height:2px;background:rgba(255,255,255,.1);border-radius:1px;overflow:hidden;}
+.loader-bar-wrap{width:min(200px,60vw);height:2px;background:rgba(255,255,255,.1);border-radius:1px;overflow:hidden;}
 .loader-bar{height:100%;background:var(--lime);width:0%;}
 .loader-pct{font-family:var(--fm);font-size:12px;color:var(--muted);letter-spacing:2px;}
 
-/* NAV */
-nav{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:1000;display:flex;align-items:center;gap:6px;background:rgba(240,237,232,.88);backdrop-filter:blur(20px);border:1px solid rgba(0,0,0,.1);border-radius:50px;padding:8px 10px;box-shadow:0 8px 32px rgba(0,0,0,.08);}
-.nav-links{display:flex;align-items:center;gap:4px;}
-.nav-link{font-family:var(--fb);font-weight:600;font-size:13px;letter-spacing:.5px;color:var(--dark);text-decoration:none;padding:7px 16px;border-radius:40px;transition:background .2s,color .2s;}
+/* ===== NAV ===== */
+nav{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:1000;display:flex;align-items:center;gap:6px;background:rgba(240,237,232,.88);backdrop-filter:blur(20px);border:1px solid rgba(0,0,0,.1);border-radius:50px;padding:7px 10px;box-shadow:0 8px 32px rgba(0,0,0,.08);max-width:calc(100vw - 20px);}
+.nav-links{display:flex;align-items:center;gap:2px;}
+.nav-link{font-family:var(--fb);font-weight:600;font-size:12px;letter-spacing:.5px;color:var(--dark);text-decoration:none;padding:6px 12px;border-radius:40px;transition:background .2s,color .2s;white-space:nowrap;}
 .nav-link:hover,.nav-link.active{background:var(--dark);color:var(--light);}
-.nav-divider{width:1px;height:22px;background:rgba(0,0,0,.15);margin:0 4px;}
-.nav-btn{font-family:var(--fb);font-weight:600;font-size:13px;padding:7px 16px;border-radius:40px;border:none;cursor:none;text-decoration:none;transition:all .2s;}
+.nav-divider{width:1px;height:22px;background:rgba(0,0,0,.15);margin:0 3px;flex-shrink:0;}
+.nav-btn{font-family:var(--fb);font-weight:600;font-size:12px;padding:6px 12px;border-radius:40px;border:none;cursor:pointer;text-decoration:none;transition:all .2s;white-space:nowrap;flex-shrink:0;}
 .nav-btn-outline{background:transparent;border:1px solid rgba(0,0,0,.2);color:var(--dark);}
 .nav-btn-fill{background:var(--dark);color:var(--lime);}
 .nav-btn-fill:hover{background:#222;}
 
-/* ===== HERO ===== */
-#home{position:relative;width:100vw;height:100vh;overflow:hidden;display:flex;flex-direction:column;background:var(--light);}
-.hero-bg-grad{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 60% 40%,rgba(200,255,0,.12) 0%,transparent 70%),radial-gradient(ellipse 40% 40% at 20% 80%,rgba(58,123,255,.07) 0%,transparent 60%);pointer-events:none;}
+/* Mobile Nav — hamburger */
+.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none;}
+.nav-hamburger span{width:22px;height:2px;background:var(--dark);border-radius:2px;transition:all .3s;}
 
-.hero-headline-wrap{position:relative;z-index:2;padding:120px 40px 0;overflow:hidden;}
-.hero-name{font-family:var(--fh);font-size:clamp(90px,15vw,180px);line-height:.9;letter-spacing:-2px;color:var(--dark);user-select:none;}
+/* Mobile Menu Overlay */
+.mobile-menu{display:none;position:fixed;inset:0;background:var(--dark);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:24px;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{font-family:var(--fh);font-size:clamp(36px,10vw,60px);color:var(--white);text-decoration:none;letter-spacing:2px;transition:color .2s;}
+.mobile-menu a:hover{color:var(--lime);}
+.mobile-menu-close{position:absolute;top:20px;right:20px;font-size:24px;color:var(--white);background:none;border:none;cursor:pointer;font-family:var(--fm);}
+
+/* ===== HERO ===== */
+#home{position:relative;width:100vw;height:100vh;min-height:600px;overflow:hidden;display:flex;flex-direction:column;background:var(--light);}
+.hero-bg-grad{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 60% 40%,rgba(200,255,0,.12) 0%,transparent 70%),radial-gradient(ellipse 40% 40% at 20% 80%,rgba(58,123,255,.07) 0%,transparent 60%);pointer-events:none;}
+.hero-video{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;z-index:1;}
+.hero-video video{width:100%;height:100%;object-fit:cover;filter:contrast(1.1);}
+
+.hero-headline-wrap{position:relative;z-index:2;padding:clamp(80px,14vh,120px) clamp(20px,4vw,40px) 0;overflow:hidden;}
+.hero-name{font-family:var(--fh);font-size:clamp(60px,15vw,180px);line-height:.9;letter-spacing:-2px;color:var(--dark);user-select:none;}
 .hero-name .adot{color:var(--lime);}
 
-.hero-middle{position:relative;z-index:5;display:flex;align-items:flex-start;justify-content:space-between;padding:0 40px;margin-top:20px;}
+.hero-middle{position:relative;z-index:5;display:flex;align-items:flex-start;justify-content:space-between;padding:0 clamp(20px,4vw,40px);margin-top:16px;}
 .hero-left-meta{display:flex;flex-direction:column;gap:12px;}
 .avatar-cluster{display:flex;align-items:center;}
-.av{width:36px;height:36px;border-radius:50%;border:2px solid var(--light);background:var(--dark3);display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:10px;color:var(--lime);font-weight:700;margin-left:-8px;}
+.av{width:32px;height:32px;border-radius:50%;border:2px solid var(--light);background:var(--dark3);display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:9px;color:var(--lime);font-weight:700;margin-left:-8px;}
 .av:first-child{margin-left:0;}
 .metric-badge{display:flex;align-items:center;gap:10px;}
-.metric-num{font-family:var(--fm);font-size:28px;font-weight:700;color:var(--dark);letter-spacing:-1px;}
+.metric-num{font-family:var(--fm);font-size:clamp(20px,5vw,28px);font-weight:700;color:var(--dark);letter-spacing:-1px;}
 .metric-label{font-family:var(--fm);font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;line-height:1.3;max-width:80px;}
 .hero-right-meta{display:flex;flex-direction:column;align-items:flex-end;gap:12px;}
 .feature-list{display:flex;flex-direction:column;gap:6px;}
 .feature-item{display:flex;align-items:center;gap:10px;}
-.feature-label{font-family:var(--fb);font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--dark);}
+.feature-label{font-family:var(--fb);font-size:clamp(10px,2vw,12px);font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--dark);}
 .feature-num{font-family:var(--fm);font-size:11px;color:var(--muted);}
 
-.hero-video{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  z-index:1;
-}
-
-.hero-video video{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  filter: contrast(1.1);
-}
-
-/* BIG RESUME — bottom-center, ~50% visible */
+/* Big Resume */
 .resume-scene{
   position:absolute;
-  /* bottom half hidden behind the fold/about section */
   bottom:-48%;
   left:50%;
   transform:translateX(-50%);
-  width:560px;
-  max-width:82vw;
+  width:min(560px,82vw);
   z-index:3;
   perspective:1400px;
   pointer-events:none;
@@ -109,71 +108,71 @@ nav{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:1000;dis
 }
 .resume-paper::before{content:'';position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,var(--lime) 40%,var(--accent-blue) 100%);}
 .resume-paper::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.35) 0%,transparent 55%);pointer-events:none;border-radius:8px;}
-.resume-content{padding:28px 26px 22px;height:100%;overflow:hidden;}
+.resume-content{padding:clamp(16px,3vw,28px) clamp(14px,2.5vw,26px) clamp(12px,2vw,22px);height:100%;overflow:hidden;}
 .resume-header-block{border-bottom:2px solid var(--lime);padding-bottom:12px;margin-bottom:12px;}
-.resume-name-text{font-family:var(--fh);font-size:28px;letter-spacing:1px;color:var(--dark);}
+.resume-name-text{font-family:var(--fh);font-size:clamp(18px,4vw,28px);letter-spacing:1px;color:var(--dark);}
 .resume-title-text{font-family:var(--fb);font-size:11px;font-weight:600;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:2px;}
 .resume-contact-row{display:flex;gap:14px;margin-top:8px;flex-wrap:wrap;}
-.resume-contact-row span{font-family:var(--fm);font-size:8px;color:var(--muted);}
+.resume-contact-row span{font-family:var(--fm);font-size:clamp(6px,1.5vw,8px);color:var(--muted);}
 .resume-section{margin-top:14px;}
 .resume-section-title{font-family:var(--fb);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--dark);border-bottom:1px solid rgba(0,0,0,.1);padding-bottom:4px;margin-bottom:8px;}
 .rl{height:6px;background:rgba(0,0,0,.06);border-radius:3px;margin-bottom:5px;}
-.rl.s{width:55%;}.rl.m{width:78%;}.rl.l{width:94%;}.rl.a{background:rgba(200,255,0,.4);}
+.rl.s{width:55%;}.rl.m{width:78%;}.rl.l{width:94%;}
 .resume-skill-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px;}
 .resume-tag{background:rgba(200,255,0,.25);border:1px solid rgba(200,255,0,.5);border-radius:3px;padding:2px 6px;font-family:var(--fm);font-size:7px;color:#556600;font-weight:700;}
-.resume-job{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px;}
-.rjt{font-family:var(--fb);font-size:9px;font-weight:700;color:var(--dark);}
-.rjd{font-family:var(--fm);font-size:8px;color:var(--muted);}
+.resume-job{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px;gap:8px;}
+.rjt{font-family:var(--fb);font-size:clamp(7px,1.5vw,9px);font-weight:700;color:var(--dark);}
+.rjd{font-family:var(--fm);font-size:8px;color:var(--muted);white-space:nowrap;}
 
-/* hero bottom */
-.hero-bottom{position:relative;z-index:6;padding:0 40px 50px;display:flex;align-items:flex-end;justify-content:space-between;margin-top:auto;}
+/* Hero Bottom */
+.hero-bottom{position:relative;z-index:6;padding:0 clamp(20px,4vw,40px) clamp(30px,5vh,50px);display:flex;align-items:flex-end;justify-content:space-between;margin-top:auto;gap:20px;}
 .hero-tagline{max-width:280px;}
-.hero-tagline p{font-family:var(--fb);font-size:15px;font-weight:500;color:var(--dark);line-height:1.5;margin-bottom:12px;}
+.hero-tagline p{font-family:var(--fb);font-size:clamp(13px,2vw,15px);font-weight:500;color:var(--dark);line-height:1.5;margin-bottom:12px;}
 .hero-dots{display:flex;gap:4px;flex-wrap:wrap;max-width:200px;}
 .hero-dot{width:4px;height:4px;border-radius:50%;background:var(--dark);opacity:.3;}
-.hiw-btn{display:flex;align-items:center;gap:10px;background:var(--lime);border:none;border-radius:50px;padding:14px 22px;cursor:none;font-family:var(--fb);font-size:14px;font-weight:700;color:var(--dark);text-decoration:none;box-shadow:0 4px 20px rgba(200,255,0,.4);transition:transform .2s,box-shadow .2s;}
+.hiw-btn{display:flex;align-items:center;gap:10px;background:var(--lime);border:none;border-radius:50px;padding:12px 20px;cursor:pointer;font-family:var(--fb);font-size:clamp(12px,2vw,14px);font-weight:700;color:var(--dark);text-decoration:none;box-shadow:0 4px 20px rgba(200,255,0,.4);transition:transform .2s,box-shadow .2s;white-space:nowrap;flex-shrink:0;}
 .hiw-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(200,255,0,.5);}
 
 /* ===== ABOUT ===== */
-#about{position:relative;background:var(--dark);min-height:100vh;padding:140px 40px 160px;overflow:hidden;}
-.about-bg-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--fh);font-size:clamp(120px,20vw,260px);color:rgba(255,255,255,.025);white-space:nowrap;pointer-events:none;user-select:none;letter-spacing:-4px;}
-.about-grid{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:60px;max-width:1200px;margin:0 auto;}
+#about{position:relative;background:var(--dark);min-height:100vh;padding:clamp(80px,12vh,140px) clamp(20px,5vw,40px) clamp(80px,12vh,160px);overflow:hidden;}
+.about-bg-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--fh);font-size:clamp(80px,15vw,260px);color:rgba(255,255,255,.025);white-space:nowrap;pointer-events:none;user-select:none;letter-spacing:-4px;}
+.about-grid{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,60px);max-width:1200px;margin:0 auto;}
 .about-section-label{font-family:var(--fm);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--lime);margin-bottom:20px;}
-.about-headline{font-family:var(--fh);font-size:clamp(50px,6vw,80px);color:var(--white);line-height:.95;margin-bottom:30px;letter-spacing:1px;}
-.about-body{font-family:var(--fb);font-size:16px;color:rgba(255,255,255,.7);line-height:1.8;margin-bottom:40px;}
-.exp-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:24px;margin-bottom:16px;position:relative;overflow:hidden;transition:border-color .3s;}
+.about-headline{font-family:var(--fh);font-size:clamp(38px,6vw,80px);color:var(--white);line-height:.95;margin-bottom:30px;letter-spacing:1px;}
+.about-body{font-family:var(--fb);font-size:clamp(14px,2vw,16px);color:rgba(255,255,255,.7);line-height:1.8;margin-bottom:40px;}
+.exp-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:clamp(16px,3vw,24px);margin-bottom:16px;position:relative;overflow:hidden;transition:border-color .3s;}
 .exp-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--lime);border-radius:3px 0 0 3px;}
 .exp-card:hover{border-color:rgba(200,255,0,.2);}
-.exp-role{font-family:var(--fb);font-size:18px;font-weight:700;color:var(--white);margin-bottom:4px;}
+.exp-role{font-family:var(--fb);font-size:clamp(15px,2.5vw,18px);font-weight:700;color:var(--white);margin-bottom:4px;}
 .exp-company{font-family:var(--fm);font-size:12px;color:var(--lime);letter-spacing:1px;margin-bottom:4px;}
 .exp-date{font-family:var(--fm);font-size:11px;color:var(--muted);margin-bottom:12px;}
 .exp-desc{font-family:var(--fb);font-size:14px;color:rgba(255,255,255,.55);line-height:1.7;}
 .about-right{display:flex;flex-direction:column;gap:40px;}
-.skills-title{font-family:var(--fh);font-size:36px;color:var(--white);letter-spacing:1px;margin-bottom:24px;}
+.skills-title{font-family:var(--fh);font-size:clamp(24px,4vw,36px);color:var(--white);letter-spacing:1px;margin-bottom:24px;}
 .skill-category{margin-bottom:20px;padding-left:12px;border-left:2px solid rgba(200,255,0,.2);}
-.skill-cat-label{font-family:var(--fb);font-size:17px;font-weight:700;color:rgba(255,255,255,.9);letter-spacing:.3px;margin-bottom:4px;}
-.skill-cat-sub{font-family:var(--fm);font-size:10px;letter-spacing:1.5px;color:var(--lime);opacity:.7;}
-.edu-card{background:rgba(200,255,0,.06);border:1px solid rgba(200,255,0,.15);border-radius:12px;padding:24px;}
-.edu-degree{font-family:var(--fb);font-size:16px;font-weight:700;color:var(--white);margin-bottom:4px;}
+.skill-cat-label{font-family:var(--fb);font-size:clamp(14px,2.5vw,17px);font-weight:700;color:rgba(255,255,255,.9);letter-spacing:.3px;margin-bottom:4px;}
+.skill-cat-sub{font-family:var(--fm);font-size:clamp(9px,1.5vw,10px);letter-spacing:1.5px;color:var(--lime);opacity:.7;}
+.edu-card{background:rgba(200,255,0,.06);border:1px solid rgba(200,255,0,.15);border-radius:12px;padding:clamp(16px,3vw,24px);}
+.edu-degree{font-family:var(--fb);font-size:clamp(14px,2vw,16px);font-weight:700;color:var(--white);margin-bottom:4px;}
 .edu-college{font-family:var(--fm);font-size:11px;color:var(--lime);letter-spacing:.5px;margin-bottom:6px;}
 .edu-meta{font-family:var(--fb);font-size:13px;color:var(--muted);}
-.cert-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:30px 18px 30px 18px;margin-bottom:12px;}
-.cert-title{font-family:var(--fb);font-size:14px;font-weight:700;color:var(--white);margin-bottom:4px;}
+.cert-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:clamp(16px,2.5vw,20px);margin-bottom:12px;}
+.cert-title{font-family:var(--fb);font-size:clamp(13px,2vw,14px);font-weight:700;color:var(--white);margin-bottom:4px;}
 .cert-desc{font-family:var(--fb);font-size:13px;color:rgba(255,255,255,.4);}
 
-/* ===== PROJECTS ===== */
+/* ===== PROJECTS — Desktop Horizontal Scroll ===== */
 #projects-scroll-container{position:relative;height:100vh;}
 #projects-sticky{position:sticky;top:0;height:100vh;overflow:hidden;background:var(--dark2);}
 .projects-track{position:absolute;top:0;left:0;height:100%;display:flex;will-change:transform;}
 .project-slide{width:100vw;height:100vh;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;}
-.slide-bg-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--fh);font-size:clamp(100px,18vw,240px);white-space:nowrap;pointer-events:none;user-select:none;letter-spacing:-4px;color:#fff;opacity:.04;}
-.slide-nav-label{position:absolute;top:100px;left:50%;transform:translateX(-50%);font-family:var(--fm);font-size:11px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.4);}
-.proj-title-block{position:absolute;top:170px;left:40px;z-index:7;}
-.proj-title{font-family:var(--fh);font-size:clamp(26px,2.8vw,40px);color:var(--white);letter-spacing:1px;line-height:1;}
-.proj-stack{font-family:var(--fm);font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-top:6px;}
+.slide-bg-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--fh);font-size:clamp(60px,12vw,240px);white-space:nowrap;pointer-events:none;user-select:none;letter-spacing:-4px;color:#fff;opacity:.04;}
+.slide-nav-label{position:absolute;top:clamp(80px,12vh,100px);left:50%;transform:translateX(-50%);font-family:var(--fm);font-size:11px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.4);}
+.proj-title-block{position:absolute;top:clamp(130px,18vh,170px);left:clamp(20px,4vw,40px);z-index:7;}
+.proj-title{font-family:var(--fh);font-size:clamp(20px,2.8vw,40px);color:var(--white);letter-spacing:1px;line-height:1;}
+.proj-stack{font-family:var(--fm);font-size:clamp(8px,1.2vw,10px);letter-spacing:2px;text-transform:uppercase;margin-top:6px;}
 
-/* laptop */
-.laptop-wrap{position:relative;width:560px;max-width:85vw;z-index:5;will-change:transform;}
+/* Laptop */
+.laptop-wrap{position:relative;width:min(560px,80vw);z-index:5;will-change:transform;}
 .laptop-body{position:relative;background:#1c1c1e;border-radius:12px 12px 0 0;padding:6px 6px 0;box-shadow:0 40px 80px rgba(0,0,0,.6),0 20px 40px rgba(0,0,0,.4);}
 .laptop-notch{width:8px;height:8px;background:#222;border-radius:50%;display:block;margin:4px auto 0;}
 .laptop-screen-bezel{background:#000;border-radius:8px 8px 0 0;overflow:hidden;aspect-ratio:16/9;}
@@ -184,85 +183,203 @@ nav{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:1000;dis
 .tb-dot{width:7px;height:7px;border-radius:50%;}
 .tb-r{background:#ff5f57;}.tb-y{background:#febc2e;}.tb-g{background:#28c840;}
 .screen-content{flex:1;overflow:hidden;position:relative;}
+.screen-content img{width:100%;height:100%;object-fit:cover;}
 
-/* project screen mockups */
-.proj-screen-1{background:linear-gradient(135deg,#0f1923,#1a2d3d);width:100%;height:100%;padding:16px;display:flex;flex-direction:column;gap:10px;}
-.ps1-header{display:flex;justify-content:space-between;align-items:center;}
-.ps1-logo{font-family:var(--fh);font-size:14px;color:#4fc3f7;letter-spacing:1px;}
-.ps1-nav{display:flex;gap:8px;}
-.ps1-ni{font-size:7px;color:rgba(255,255,255,.5);font-family:var(--fb);background:rgba(255,255,255,.05);padding:3px 8px;border-radius:4px;}
-.ps1-hero{flex:1;background:rgba(79,195,247,.08);border-radius:8px;padding:14px;display:flex;flex-direction:column;justify-content:center;}
-.ps1-hero-lbl{font-size:7px;color:#4fc3f7;font-family:var(--fb);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;}
-.ps1-hero-h{font-family:var(--fh);font-size:20px;color:#fff;margin-bottom:6px;}
-.ps1-stats{display:flex;gap:8px;margin-top:8px;}
-.ps1-stat{background:rgba(79,195,247,.15);border-radius:5px;padding:5px 8px;}
-.ps1-sn{font-size:11px;color:#4fc3f7;font-weight:700;font-family:var(--fm);}
-.ps1-sl{font-size:6px;color:rgba(255,255,255,.4);font-family:var(--fb);}
-.ps1-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;}
-.ps1-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:6px;padding:8px;}
-.ps1-ct{font-size:7px;color:rgba(255,255,255,.6);font-family:var(--fb);margin-bottom:4px;}
-.ps1-bar{height:4px;background:rgba(79,195,247,.2);border-radius:2px;overflow:hidden;}
-.ps1-bf{height:100%;background:#4fc3f7;border-radius:2px;}
-.proj-screen-2{background:#0d1117;width:100%;height:100%;padding:14px;display:flex;flex-direction:column;gap:8px;}
-.ps2-header{display:flex;justify-content:space-between;align-items:center;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.07);}
-.ps2-logo{font-family:var(--fh);font-size:14px;color:#00e5a0;letter-spacing:1px;}
-.ps2-search{background:rgba(255,255,255,.06);border-radius:20px;padding:4px 12px;font-size:7px;color:rgba(255,255,255,.3);font-family:var(--fm);}
-.ps2-filters{display:flex;gap:5px;}
-.ps2-filter{background:rgba(0,229,160,.1);border:1px solid rgba(0,229,160,.25);border-radius:4px;padding:3px 8px;font-size:7px;color:#00e5a0;font-family:var(--fb);}
-.ps2-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;flex:1;}
-.ps2-prop{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:6px;overflow:hidden;}
-.ps2-pimg{height:50px;background:linear-gradient(135deg,rgba(0,229,160,.1),rgba(0,100,80,.2));display:flex;align-items:center;justify-content:center;font-size:18px;}
-.ps2-pb{padding:6px;}
-.ps2-pp{font-family:var(--fm);font-size:9px;color:#00e5a0;font-weight:700;margin-bottom:2px;}
-.ps2-pl{font-size:7px;color:rgba(255,255,255,.4);font-family:var(--fb);}
-.ps2-pt{display:inline-block;background:rgba(0,229,160,.15);border-radius:3px;padding:1px 4px;font-size:6px;color:#00e5a0;font-family:var(--fb);margin-top:3px;}
-
-/* callouts */
+/* Callouts */
 .callouts-layer{position:absolute;inset:0;pointer-events:none;z-index:6;}
 .callout{position:absolute;background:rgba(12,12,18,.88);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:10px 14px;min-width:130px;opacity:0;}
-.callout-title{font-family:var(--fb);font-size:13px;font-weight:700;color:#fff;margin-bottom:2px;}
-.callout-label{font-family:var(--fm);font-size:10px;color:rgba(255,255,255,.5);}
+.callout-title{font-family:var(--fb);font-size:clamp(11px,1.8vw,13px);font-weight:700;color:#fff;margin-bottom:2px;}
+.callout-label{font-family:var(--fm);font-size:clamp(8px,1.2vw,10px);color:rgba(255,255,255,.5);}
 
-/* slide UI chrome */
-.slide-progress{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:10;}
+/* Slide UI chrome */
+.slide-progress{position:absolute;bottom:clamp(20px,4vh,36px);left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:10;}
 .prog-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.2);transition:all .3s;}
 .prog-dot.active{background:var(--lime);width:24px;border-radius:3px;}
-.slide-counter{position:absolute;bottom:40px;right:40px;font-family:var(--fm);font-size:11px;color:rgba(255,255,255,.3);letter-spacing:1px;}
-.scroll-hint-proj{position:absolute;bottom:40px;left:40px;font-family:var(--fm);font-size:10px;color:rgba(255,255,255,.25);letter-spacing:2px;text-transform:uppercase;}
+.slide-counter{position:absolute;bottom:clamp(24px,4vh,40px);right:clamp(20px,4vw,40px);font-family:var(--fm);font-size:11px;color:rgba(255,255,255,.3);letter-spacing:1px;}
+.scroll-hint-proj{position:absolute;bottom:clamp(24px,4vh,40px);left:clamp(20px,4vw,40px);font-family:var(--fm);font-size:10px;color:rgba(255,255,255,.25);letter-spacing:2px;text-transform:uppercase;}
+
+/* ===== MOBILE PROJECTS CARDS (replaces horizontal scroll) ===== */
+.mobile-projects{display:none;background:var(--dark2);padding:clamp(60px,10vh,100px) clamp(20px,5vw,40px);}
+.mobile-projects-label{font-family:var(--fm);font-size:11px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.4);text-align:center;margin-bottom:40px;}
+.mobile-project-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:16px;overflow:hidden;margin-bottom:32px;}
+.mobile-proj-screen{width:100%;aspect-ratio:16/9;overflow:hidden;background:#000;}
+.mobile-proj-screen img{width:100%;height:100%;object-fit:cover;}
+.mobile-proj-info{padding:24px;}
+.mobile-proj-num{font-family:var(--fm);font-size:10px;color:rgba(255,255,255,.3);letter-spacing:2px;margin-bottom:8px;}
+.mobile-proj-title{font-family:var(--fh);font-size:clamp(22px,5vw,32px);color:var(--white);letter-spacing:1px;margin-bottom:8px;line-height:1.1;}
+.mobile-proj-stack{font-family:var(--fm);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px;}
+.mobile-proj-tags{display:flex;flex-wrap:wrap;gap:8px;}
+.mobile-proj-tag{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:6px 12px;font-family:var(--fb);font-size:12px;font-weight:600;color:rgba(255,255,255,.6);}
 
 /* ===== CONTACT ===== */
-#contact{position:relative;background:var(--light);min-height:100vh;padding:120px 40px 100px;overflow:hidden;}
-.contact-bg-text{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);font-family:var(--fh);font-size:clamp(80px,16vw,200px);color:rgba(0,0,0,.05);white-space:nowrap;pointer-events:none;user-select:none;letter-spacing:-4px;}
-.contact-inner{position:relative;z-index:2;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+#contact{position:relative;background:var(--light);min-height:100vh;padding:clamp(80px,12vh,120px) clamp(20px,5vw,40px) clamp(60px,10vh,100px);overflow:hidden;}
+.contact-bg-text{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);font-family:var(--fh);font-size:clamp(60px,12vw,200px);color:rgba(0,0,0,.05);white-space:nowrap;pointer-events:none;user-select:none;letter-spacing:-4px;}
+.contact-inner{position:relative;z-index:2;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,80px);align-items:start;}
 .contact-label{font-family:var(--fm);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;}
-.contact-headline{font-family:var(--fh);font-size:clamp(60px,8vw,100px);color:var(--dark);line-height:.9;margin-bottom:30px;letter-spacing:1px;}
+.contact-headline{font-family:var(--fh);font-size:clamp(50px,8vw,100px);color:var(--dark);line-height:.9;margin-bottom:30px;letter-spacing:1px;}
 .contact-headline span{color:var(--lime);}
-.contact-body{font-family:var(--fb);font-size:16px;color:var(--muted);line-height:1.8;margin-bottom:40px;max-width:340px;}
+.contact-body{font-family:var(--fb);font-size:clamp(14px,2vw,16px);color:var(--muted);line-height:1.8;margin-bottom:40px;max-width:340px;}
 .contact-links{display:flex;flex-direction:column;gap:14px;}
 .contact-link{display:flex;align-items:center;gap:16px;text-decoration:none;}
-.cl-icon{width:44px;height:44px;border:1px solid rgba(0,0,0,.12);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;transition:all .2s;background:#fff;}
+.cl-icon{width:44px;height:44px;border:1px solid rgba(0,0,0,.12);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;transition:all .2s;background:#fff;flex-shrink:0;}
 .contact-link:hover .cl-icon{background:var(--dark);border-color:var(--dark);}
-.cl-text{font-family:var(--fb);font-size:16px;font-weight:600;color:var(--dark);}
+.cl-text{font-family:var(--fb);font-size:clamp(13px,2vw,16px);font-weight:600;color:var(--dark);word-break:break-all;}
 .cl-sub{font-family:var(--fm);font-size:11px;color:var(--muted);}
 .contact-form{display:flex;flex-direction:column;gap:20px;}
 .form-group{display:flex;flex-direction:column;gap:6px;}
 .form-label{font-family:var(--fm);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
-.form-input{background:#fff;border:1px solid rgba(0,0,0,.12);border-radius:8px;padding:14px 18px;font-family:var(--fb);font-size:15px;font-weight:500;color:var(--dark);outline:none;transition:border-color .2s,box-shadow .2s;resize:none;}
+.form-input{background:#fff;border:1px solid rgba(0,0,0,.12);border-radius:8px;padding:14px 18px;font-family:var(--fb);font-size:15px;font-weight:500;color:var(--dark);outline:none;transition:border-color .2s,box-shadow .2s;resize:none;width:100%;}
 .form-input:focus{border-color:var(--dark);box-shadow:0 0 0 3px rgba(0,0,0,.06);}
-.form-submit{background:var(--dark);color:var(--lime);border:none;border-radius:50px;padding:16px 40px;font-family:var(--fb);font-size:16px;font-weight:700;letter-spacing:1px;cursor:none;transition:all .2s;align-self:flex-start;}
+.form-submit{background:var(--dark);color:var(--lime);border:none;border-radius:50px;padding:16px 40px;font-family:var(--fb);font-size:16px;font-weight:700;letter-spacing:1px;cursor:pointer;transition:all .2s;align-self:flex-start;}
 .form-submit:hover{background:#222;transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.2);}
 
 /* ===== FOOTER ===== */
-footer{background:var(--dark);padding:60px 40px;overflow:hidden;}
-.footer-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-end;}
-.footer-logo{font-family:var(--fh);font-size:48px;color:var(--white);letter-spacing:2px;line-height:1;}
+footer{background:var(--dark);padding:clamp(40px,6vh,60px) clamp(20px,5vw,40px);}
+.footer-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap;}
+.footer-logo{font-family:var(--fh);font-size:clamp(32px,6vw,48px);color:var(--white);letter-spacing:2px;line-height:1;}
 .footer-logo span{color:var(--lime);}
 .footer-tagline{font-family:var(--fm);font-size:11px;color:var(--muted);letter-spacing:1px;margin-top:8px;}
-.footer-links{display:flex;gap:24px;}
+.footer-links{display:flex;gap:clamp(12px,3vw,24px);flex-wrap:wrap;}
 .footer-link{font-family:var(--fb);font-size:13px;font-weight:600;color:rgba(255,255,255,.5);text-decoration:none;letter-spacing:1px;text-transform:uppercase;transition:color .2s;}
 .footer-link:hover{color:var(--lime);}
 .footer-copy{font-family:var(--fm);font-size:11px;color:rgba(255,255,255,.2);margin:40px auto 0;padding-top:30px;border-top:1px solid rgba(255,255,255,.06);max-width:1200px;text-align:center;}
+
 .section-transition{height:2px;background:linear-gradient(90deg,transparent,var(--lime),transparent);opacity:.3;}
+
+/* ============================================================
+   RESPONSIVE BREAKPOINTS
+   ============================================================ */
+
+/* Ensure resume stays absolute/centered on desktop */
+@media(min-width:769px){
+  .resume-scene{
+    position:absolute;
+    bottom:-48%;
+    left:50%;
+    transform:translateX(-50%);
+    width:min(560px,82vw);
+    margin:0;
+  }
+  .resume-paper{
+    transform:rotateX(8deg) rotateY(-6deg) rotateZ(1deg);
+  }
+  .hero-bottom{
+    display:flex;
+  }
+}
+/* --- TABLET (max 1024px) --- */
+
+@media(max-width:1024px){
+  /* About 2-col → 1-col */
+  .about-grid{grid-template-columns:1fr;}
+  .about-right{gap:24px;}
+
+  /* Contact 2-col → 1-col */
+  .contact-inner{grid-template-columns:1fr;}
+  .contact-body{max-width:100%;}
+
+  /* Callouts — hide side ones, keep in safer spots */
+  .callout[style*="left:5%"]{left:2%!important;}
+  .callout[style*="right:5%"]{right:2%!important;}
+}
+
+/* --- TABLET NAV (max 900px) --- */
+@media(max-width:900px){
+  /* Simplify nav — hide some items */
+  .nav-btn-outline{display:none;}
+  .nav-link{padding:5px 10px;font-size:11px;}
+}
+
+/* --- MOBILE (max 768px) --- */
+@media(max-width:768px){
+  body{cursor:auto!important;}
+
+  /* Nav → compact pill + hamburger */
+  nav{top:10px;padding:6px 8px;gap:4px;}
+  .nav-links,.nav-divider,.nav-btn-outline,.nav-btn-fill{display:none;}
+  .nav-hamburger{display:flex;}
+  /* Show only logo text */
+  nav::before{content:'KP.';font-family:var(--fh);font-size:22px;color:var(--dark);letter-spacing:1px;margin-right:4px;}
+
+  /* Hero — reduced height */
+#home{height:auto;min-height:0;overflow: visible;}
+.hero-headline-wrap{padding-top:70px;}
+.hero-name{font-size:clamp(48px,14vw,80px);}
+.hero-middle{flex-direction:row;justify-content:space-between;align-items:center;gap:8px;margin-top:10px;}
+.hero-right-meta{align-items:flex-end;}
+
+/* Resume — centered in page flow */
+.resume-scene{
+  position:relative;
+  bottom:auto;
+  left:0px;
+  transform:none;
+  width:min(300px,78vw);
+  margin:18px auto 0;
+  display:block;
+  perspective:1000px;
+  pointer-events:none;
+}
+.resume-paper{
+  transform:rotateX(4deg) rotateY(-3deg) rotateZ(0.5deg);
+}
+
+/* Hero bottom — stack below resume */
+.hero-bottom{flex-direction:column;align-items:center;gap:8px;padding:16px 20px 24px;position:relative;z-index:6;margin-top:0;}
+.hero-tagline{max-width:100%;text-align:center;}
+.hero-tagline p{font-size:13px;}
+.hero-dots{display:none;}
+.hiw-btn{align-self:center;}
+
+  /* About */
+  #about{padding:80px 20px 80px;}
+  .about-grid{grid-template-columns:1fr;gap:40px;}
+  .about-headline{font-size:clamp(36px,10vw,56px);}
+
+  /* Projects — switch to mobile card layout */
+  #projects-scroll-container{display:none!important;}
+  .mobile-projects{display:block;}
+
+  /* Contact */
+  #contact{padding:80px 20px 60px;}
+  .contact-inner{grid-template-columns:1fr;gap:50px;}
+  .contact-headline{font-size:clamp(50px,14vw,80px);}
+
+  /* Footer */
+  .footer-inner{flex-direction:column;align-items:flex-start;}
+}
+
+/* --- SMALL MOBILE (max 480px) --- */
+@media(max-width:480px){
+  .hero-name{font-size:clamp(44px,16vw,72px);}
+  .av{width:28px;height:28px;font-size:8px;}
+  .metric-badge{gap:8px;}
+  .feature-list{gap:4px;}
+  .resume-scene{bottom:-30%;width:min(280px,80vw);}
+
+  /* Callouts hidden entirely on very small screens */
+  .callouts-layer{display:none;}
+
+  /* Slide title smaller */
+  .proj-title{font-size:18px;}
+
+  .contact-headline{font-size:clamp(42px,14vw,66px);}
+
+  .form-submit{width:100%;text-align:center;align-self:stretch;}
+}
+
+/* --- LANDSCAPE MOBILE (short + wide) --- */
+@media(max-height:500px) and (orientation:landscape){
+  #home{height:auto;min-height:100vh;}
+  .hero-headline-wrap{padding-top:70px;}
+  .resume-scene{display:none;}
+  .hero-bottom{padding-bottom:20px;}
+}
+
+/* --- LARGE DESKTOP (min 1400px) --- */
+@media(min-width:1400px){
+  .hero-name{font-size:min(200px,14vw);}
+}
 </style>
 </head>
 <body>
@@ -276,6 +393,16 @@ footer{background:var(--dark);padding:60px 40px;overflow:hidden;}
 <div id="cursor"></div>
 <div id="cursor-ring"></div>
 
+<!-- Mobile Menu Overlay -->
+<div class="mobile-menu" id="mobile-menu">
+  <button class="mobile-menu-close" id="mobile-close">✕</button>
+  <a href="#home" class="mobile-nav-link">HOME</a>
+  <a href="#about" class="mobile-nav-link">ABOUT</a>
+  <a href="#projects-mob" class="mobile-nav-link">PROJECTS</a>
+  <a href="#contact" class="mobile-nav-link">CONTACT</a>
+  <a href="#contact" class="mobile-nav-link" style="color:var(--lime)">HIRE ME →</a>
+</div>
+
 <nav>
   <div class="nav-links">
     <a href="#home" class="nav-link active" data-nav="home">Home</a>
@@ -286,6 +413,9 @@ footer{background:var(--dark);padding:60px 40px;overflow:hidden;}
   <div class="nav-divider"></div>
   <a href="#" class="nav-btn nav-btn-outline" id="resume-btn">Resume ↓</a>
   <a href="#contact" class="nav-btn nav-btn-fill">Hire Me →</a>
+  <button class="nav-hamburger" id="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <!-- ============ HERO ============ -->
@@ -313,7 +443,6 @@ footer{background:var(--dark);padding:60px 40px;overflow:hidden;}
         </div>
       </div>
     </div>
-
     <div class="hero-right-meta" id="hright">
       <div class="feature-list">
         <div class="feature-item"><span class="feature-label">Full-Stack</span><span class="feature-num">/01</span></div>
@@ -323,7 +452,6 @@ footer{background:var(--dark);padding:60px 40px;overflow:hidden;}
     </div>
   </div>
 
-  <!-- BIG RESUME — bottom-center, half peeking up -->
   <div class="resume-scene" id="resume-scene">
     <div class="resume-paper" id="resume-paper">
       <div class="resume-content">
@@ -400,7 +528,6 @@ footer{background:var(--dark);padding:60px 40px;overflow:hidden;}
         <div class="edu-meta">Graduating 2026 · CGPA: 7.2 / 10</div>
       </div>
     </div>
-
     <div id="about-right">
       <div>
         <div class="skills-title" id="ar-skills-title">SKILLS</div>
@@ -422,7 +549,7 @@ footer{background:var(--dark);padding:60px 40px;overflow:hidden;}
         </div>
       </div>
       <div id="ar-certs">
-        <div class="skills-title" style="font-size:28px;margin-bottom:16px">CERTIFICATIONS</div>
+        <div class="skills-title" style="font-size:clamp(20px,3vw,28px);margin-bottom:16px">CERTIFICATIONS</div>
         <div class="cert-card"><div class="cert-title">Advanced Java Certification</div><div class="cert-desc">OOP, exception handling, collections, backend development</div></div>
         <div class="cert-card"><div class="cert-title">Java Programming — NPTEL (SWAYAM)</div><div class="cert-desc">Java fundamentals, data structures, application development</div></div>
       </div>
@@ -432,8 +559,7 @@ footer{background:var(--dark);padding:60px 40px;overflow:hidden;}
 
 <div class="section-transition"></div>
 
-<!-- ============ PROJECTS ============ -->
-<!-- Scroll container: 300vh so 100vh per slide transition + entry/exit buffer -->
+<!-- ============ PROJECTS — Desktop Horizontal Scroll ============ -->
 <div id="projects-scroll-container" style="height:740vh;position:relative;">
   <div id="projects-sticky">
     <div class="projects-track" id="projects-track">
@@ -452,9 +578,7 @@ footer{background:var(--dark);padding:60px 40px;overflow:hidden;}
             <div class="laptop-screen-bezel">
               <div class="laptop-screen">
                 <div class="screen-topbar" style="background:#1c1c1e"><span class="tb-dot tb-r"></span><span class="tb-dot tb-y"></span><span class="tb-dot tb-g"></span></div>
-                <div class="screen-content">
-                 <img src="./asset/project-1.png" style="width:100%;height:100%;object-fit:cover;">
-                </div>
+                <div class="screen-content"><img src="./asset/project-1.png" alt="Franchise SaaS Platform"></div>
               </div>
             </div>
           </div>
@@ -466,7 +590,7 @@ footer{background:var(--dark);padding:60px 40px;overflow:hidden;}
           <div class="callout" id="c1-3" style="bottom:26%;left:5%"><div class="callout-title" style="color:#4fc3f7">React Dashboard</div><div class="callout-label">Admin UI with RBAC</div></div>
           <div class="callout" id="c1-4" style="bottom:26%;right:5%"><div class="callout-title" style="color:#4fc3f7">MySQL Schema</div><div class="callout-label">Normalized Database</div></div>
         </div>
-        <div class="slide-progress"><div class="prog-dot active"></div><div class="prog-dot"></div></div>
+        <div class="slide-progress"><div class="prog-dot active"></div><div class="prog-dot"></div><div class="prog-dot"></div><div class="prog-dot"></div></div>
         <div class="slide-counter">01 / 04</div>
         <div class="scroll-hint-proj">SCROLL TO NEXT →</div>
       </div>
@@ -485,174 +609,150 @@ footer{background:var(--dark);padding:60px 40px;overflow:hidden;}
             <div class="laptop-screen-bezel">
               <div class="laptop-screen">
                 <div class="screen-topbar" style="background:#0d1117"><span class="tb-dot tb-r"></span><span class="tb-dot tb-y"></span><span class="tb-dot tb-g"></span></div>
-                <div class="screen-content">
-                <img src="./asset/project-2.png" style="width:100%;height:100%;object-fit:cover;">
-                </div>
+                <div class="screen-content"><img src="./asset/project-2.png" alt="Real Estate Marketplace"></div>
               </div>
             </div>
           </div>
           <div class="laptop-base"></div>
         </div>
-
-        
         <div class="callouts-layer">
           <div class="callout" id="c2-1" style="top:22%;left:5%"><div class="callout-title" style="color:#00e5a0">Spring REST API</div><div class="callout-label">Property CRUD Ops</div></div>
           <div class="callout" id="c2-2" style="top:40%;right:5%"><div class="callout-title" style="color:#00e5a0">Search &amp; Filter</div><div class="callout-label">Pagination Built-In</div></div>
           <div class="callout" id="c2-3" style="bottom:26%;left:5%"><div class="callout-title" style="color:#00e5a0">React Frontend</div><div class="callout-label">Dynamic UI Updates</div></div>
           <div class="callout" id="c2-4" style="bottom:26%;right:5%"><div class="callout-title" style="color:#00e5a0">Admin Auth</div><div class="callout-label">JWT + MySQL Schema</div></div>
         </div>
-        <div class="slide-progress"><div class="prog-dot"></div><div class="prog-dot active"></div></div>
+        <div class="slide-progress"><div class="prog-dot"></div><div class="prog-dot active"></div><div class="prog-dot"></div><div class="prog-dot"></div></div>
         <div class="slide-counter">02 / 04</div>
-        <div class="scroll-hint-proj">← SCROLL BACK</div>
+        <div class="scroll-hint-proj">SCROLL →</div>
       </div>
 
       <!-- SLIDE 3 -->
       <div class="project-slide" id="slide-3">
-
-      <div class="slide-bg-text" id="sbg3">REALESTATE</div>
-      <div class="slide-nav-label">// 03 — PROJECTS</div>
-
-      <div class="proj-title-block" id="ptb3">
-      <div class="proj-title">REAL ESTATE<br>COMPANY WEBSITE</div>
-      <div class="proj-stack" style="color:#00e5a0">React · Tailwind · Component Architecture</div>
-      </div>
-
-      <div class="laptop-wrap" id="laptop-3">
-      <div class="laptop-body">
-
-      <span class="laptop-notch"></span>
-
-      <div class="laptop-screen-bezel">
-      <div class="laptop-screen">
-
-      <div class="screen-topbar" style="background:#0d1117">
-      <span class="tb-dot tb-r"></span>
-      <span class="tb-dot tb-y"></span>
-      <span class="tb-dot tb-g"></span>
-      </div>
-
-      <div class="screen-content">
-      <img src="./asset/project-3.png" style="width:100%;height:100%;object-fit:cover;">
-      </div>
-
-      </div>
-      </div>
-
-      </div>
-
-      <div class="laptop-base"></div>
-      </div>
-
-      <div class="callouts-layer">
-
-      <div class="callout" id="c3-1" style="top:22%;left:5%">
-      <div class="callout-title" style="color:#00e5a0">React Components</div>
-      <div class="callout-label">Reusable UI Blocks</div>
-      </div>
-
-      <div class="callout" id="c3-2" style="top:40%;right:5%">
-      <div class="callout-title" style="color:#00e5a0">Tailwind CSS</div>
-      <div class="callout-label">Utility Based Styling</div>
-      </div>
-
-      <div class="callout" id="c3-3" style="bottom:26%;left:5%">
-      <div class="callout-title" style="color:#00e5a0">Property Showcase</div>
-      <div class="callout-label">Interactive Listings</div>
-      </div>
-
-      <div class="callout" id="c3-4" style="bottom:26%;right:5%">
-      <div class="callout-title" style="color:#00e5a0">Responsive Layout</div>
-      <div class="callout-label">Mobile Optimized</div>
-      </div>
-
-      </div>
-
-      <div class="slide-progress">
-      <div class="prog-dot"></div>
-      <div class="prog-dot"></div>
-      <div class="prog-dot active"></div>
-      <div class="prog-dot"></div>
-      </div>
-
-      <div class="slide-counter">03 / 04</div>
-      <div class="scroll-hint-proj">SCROLL →</div>
-
+        <div class="slide-bg-text" id="sbg3">WEBSITE</div>
+        <div class="slide-nav-label">// 03 — PROJECTS</div>
+        <div class="proj-title-block" id="ptb3">
+          <div class="proj-title">REAL ESTATE<br>COMPANY WEBSITE</div>
+          <div class="proj-stack" style="color:#00e5a0">React · Tailwind · Component Architecture</div>
+        </div>
+        <div class="laptop-wrap" id="laptop-3">
+          <div class="laptop-body">
+            <span class="laptop-notch"></span>
+            <div class="laptop-screen-bezel">
+              <div class="laptop-screen">
+                <div class="screen-topbar" style="background:#0d1117"><span class="tb-dot tb-r"></span><span class="tb-dot tb-y"></span><span class="tb-dot tb-g"></span></div>
+                <div class="screen-content"><img src="./asset/project-3.png" alt="Real Estate Website"></div>
+              </div>
+            </div>
+          </div>
+          <div class="laptop-base"></div>
+        </div>
+        <div class="callouts-layer">
+          <div class="callout" id="c3-1" style="top:22%;left:5%"><div class="callout-title" style="color:#00e5a0">React Components</div><div class="callout-label">Reusable UI Blocks</div></div>
+          <div class="callout" id="c3-2" style="top:40%;right:5%"><div class="callout-title" style="color:#00e5a0">Tailwind CSS</div><div class="callout-label">Utility Based Styling</div></div>
+          <div class="callout" id="c3-3" style="bottom:26%;left:5%"><div class="callout-title" style="color:#00e5a0">Property Showcase</div><div class="callout-label">Interactive Listings</div></div>
+          <div class="callout" id="c3-4" style="bottom:26%;right:5%"><div class="callout-title" style="color:#00e5a0">Responsive Layout</div><div class="callout-label">Mobile Optimized</div></div>
+        </div>
+        <div class="slide-progress"><div class="prog-dot"></div><div class="prog-dot"></div><div class="prog-dot active"></div><div class="prog-dot"></div></div>
+        <div class="slide-counter">03 / 04</div>
+        <div class="scroll-hint-proj">SCROLL →</div>
       </div>
 
       <!-- SLIDE 4 -->
       <div class="project-slide" id="slide-4">
-
-      <div class="slide-bg-text" id="sbg4">PORTFOLIO</div>
-      <div class="slide-nav-label">// 04 — PROJECTS</div>
-
-      <div class="proj-title-block" id="ptb4">
-      <div class="proj-title">DEVELOPER<br>PORTFOLIO</div>
-      <div class="proj-stack" style="color:#C8FF00">HTML · CSS · GSAP</div>
+        <div class="slide-bg-text" id="sbg4">PORTFOLIO</div>
+        <div class="slide-nav-label">// 04 — PROJECTS</div>
+        <div class="proj-title-block" id="ptb4">
+          <div class="proj-title">DEVELOPER<br>PORTFOLIO</div>
+          <div class="proj-stack" style="color:#C8FF00">HTML · CSS · GSAP</div>
+        </div>
+        <div class="laptop-wrap" id="laptop-4">
+          <div class="laptop-body">
+            <span class="laptop-notch"></span>
+            <div class="laptop-screen-bezel">
+              <div class="laptop-screen">
+                <div class="screen-topbar" style="background:#111"><span class="tb-dot tb-r"></span><span class="tb-dot tb-y"></span><span class="tb-dot tb-g"></span></div>
+                <div class="screen-content"><img src="./asset/project-4.png" alt="Developer Portfolio"></div>
+              </div>
+            </div>
+          </div>
+          <div class="laptop-base"></div>
+        </div>
+        <div class="callouts-layer">
+          <div class="callout" id="c4-1" style="top:22%;left:5%"><div class="callout-title" style="color:#C8FF00">GSAP Animations</div><div class="callout-label">ScrollTrigger Based</div></div>
+          <div class="callout" id="c4-2" style="top:40%;right:5%"><div class="callout-title" style="color:#C8FF00">Custom Cursor</div><div class="callout-label">Interactive UI</div></div>
+          <div class="callout" id="c4-3" style="bottom:26%;left:5%"><div class="callout-title" style="color:#C8FF00">Horizontal Scroll</div><div class="callout-label">GSAP Container</div></div>
+          <div class="callout" id="c4-4" style="bottom:26%;right:5%"><div class="callout-title" style="color:#C8FF00">Modern Layout</div><div class="callout-label">Responsive Design</div></div>
+        </div>
+        <div class="slide-progress"><div class="prog-dot"></div><div class="prog-dot"></div><div class="prog-dot"></div><div class="prog-dot active"></div></div>
+        <div class="slide-counter">04 / 04</div>
+        <div class="scroll-hint-proj">← SCROLL BACK</div>
       </div>
 
-      <div class="laptop-wrap" id="laptop-4">
+    </div>
+  </div>
+</div>
 
-      <div class="laptop-body">
+<!-- ============ PROJECTS — Mobile Card Layout ============ -->
+<div class="mobile-projects" id="projects-mob">
+  <div class="mobile-projects-label">// PROJECTS</div>
 
-      <span class="laptop-notch"></span>
-
-      <div class="laptop-screen-bezel">
-      <div class="laptop-screen">
-
-      <div class="screen-topbar" style="background:#111">
-      <span class="tb-dot tb-r"></span>
-      <span class="tb-dot tb-y"></span>
-      <span class="tb-dot tb-g"></span>
+  <div class="mobile-project-card">
+    <div class="mobile-proj-screen"><img src="./asset/project-1.png" alt="Franchise SaaS Platform"></div>
+    <div class="mobile-proj-info">
+      <div class="mobile-proj-num">01 / 04</div>
+      <div class="mobile-proj-title">FRANCHISE MGMT SAAS</div>
+      <div class="mobile-proj-stack" style="color:#4fc3f7">Java · Spring Boot · React · MySQL · JWT</div>
+      <div class="mobile-proj-tags">
+        <span class="mobile-proj-tag">Spring Boot</span>
+        <span class="mobile-proj-tag">JWT Auth</span>
+        <span class="mobile-proj-tag">React Dashboard</span>
+        <span class="mobile-proj-tag">MySQL Schema</span>
       </div>
+    </div>
+  </div>
 
-      <div class="screen-content">
-      <img src="./asset/project-4.png" style="width:100%;height:100%;object-fit:cover;">
+  <div class="mobile-project-card">
+    <div class="mobile-proj-screen"><img src="./asset/project-2.png" alt="Real Estate Marketplace"></div>
+    <div class="mobile-proj-info">
+      <div class="mobile-proj-num">02 / 04</div>
+      <div class="mobile-proj-title">REAL ESTATE MARKETPLACE</div>
+      <div class="mobile-proj-stack" style="color:#00e5a0">Java · Spring Boot · React · JWT · MySQL</div>
+      <div class="mobile-proj-tags">
+        <span class="mobile-proj-tag">Spring REST API</span>
+        <span class="mobile-proj-tag">Search &amp; Filter</span>
+        <span class="mobile-proj-tag">React Frontend</span>
+        <span class="mobile-proj-tag">Admin Auth</span>
       </div>
+    </div>
+  </div>
 
+  <div class="mobile-project-card">
+    <div class="mobile-proj-screen"><img src="./asset/project-3.png" alt="Real Estate Website"></div>
+    <div class="mobile-proj-info">
+      <div class="mobile-proj-num">03 / 04</div>
+      <div class="mobile-proj-title">REAL ESTATE COMPANY WEBSITE</div>
+      <div class="mobile-proj-stack" style="color:#00e5a0">React · Tailwind · Component Architecture</div>
+      <div class="mobile-proj-tags">
+        <span class="mobile-proj-tag">React Components</span>
+        <span class="mobile-proj-tag">Tailwind CSS</span>
+        <span class="mobile-proj-tag">Responsive Layout</span>
+        <span class="mobile-proj-tag">Property Showcase</span>
       </div>
+    </div>
+  </div>
+
+  <div class="mobile-project-card">
+    <div class="mobile-proj-screen"><img src="./asset/project-4.png" alt="Developer Portfolio"></div>
+    <div class="mobile-proj-info">
+      <div class="mobile-proj-num">04 / 04</div>
+      <div class="mobile-proj-title">DEVELOPER PORTFOLIO</div>
+      <div class="mobile-proj-stack" style="color:#C8FF00">HTML · CSS · GSAP</div>
+      <div class="mobile-proj-tags">
+        <span class="mobile-proj-tag">GSAP Animations</span>
+        <span class="mobile-proj-tag">Custom Cursor</span>
+        <span class="mobile-proj-tag">Horizontal Scroll</span>
+        <span class="mobile-proj-tag">Modern Layout</span>
       </div>
-
-      </div>
-
-      <div class="laptop-base"></div>
-      </div>
-
-      <div class="callouts-layer">
-
-      <div class="callout" id="c4-1" style="top:22%;left:5%">
-      <div class="callout-title" style="color:#C8FF00">GSAP Animations</div>
-      <div class="callout-label">ScrollTrigger Based</div>
-      </div>
-
-      <div class="callout" id="c4-2" style="top:40%;right:5%">
-      <div class="callout-title" style="color:#C8FF00">Custom Cursor</div>
-      <div class="callout-label">Interactive UI</div>
-      </div>
-
-      <div class="callout" id="c4-3" style="bottom:26%;left:5%">
-      <div class="callout-title" style="color:#C8FF00">Horizontal Scroll</div>
-      <div class="callout-label">GSAP Container</div>
-      </div>
-
-      <div class="callout" id="c4-4" style="bottom:26%;right:5%">
-      <div class="callout-title" style="color:#C8FF00">Modern Layout</div>
-      <div class="callout-label">Responsive Design</div>
-      </div>
-
-      </div>
-
-      <div class="slide-progress">
-      <div class="prog-dot"></div>
-      <div class="prog-dot"></div>
-      <div class="prog-dot"></div>
-      <div class="prog-dot active"></div>
-      </div>
-
-      <div class="slide-counter">04 / 04</div>
-      <div class="scroll-hint-proj">← SCROLL BACK</div>
-
-      </div>
-
     </div>
   </div>
 </div>
@@ -695,7 +795,6 @@ footer{background:var(--dark);padding:60px 40px;overflow:hidden;}
     <div class="footer-links">
       <a href="#home" class="footer-link">Home</a>
       <a href="#about" class="footer-link">About</a>
-      <a href="#projects-scroll-container" class="footer-link">Projects</a>
       <a href="#contact" class="footer-link">Contact</a>
     </div>
   </div>
@@ -705,20 +804,33 @@ footer{background:var(--dark);padding:60px 40px;overflow:hidden;}
 <script>
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
-/* ====== CURSOR ====== */
-const cur = document.getElementById('cursor');
-const ring = document.getElementById('cursor-ring');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
-(function animC(){
-  rx+=(mx-rx)*.12;ry+=(my-ry)*.12;
-  cur.style.left=mx+'px';cur.style.top=my+'px';
-  ring.style.left=rx+'px';ring.style.top=ry+'px';
-  requestAnimationFrame(animC);
-})();
-document.querySelectorAll('a,button,.exp-card,.callout,.skill-category').forEach(el=>{
-  el.addEventListener('mouseenter',()=>document.body.classList.add('ch'));
-  el.addEventListener('mouseleave',()=>document.body.classList.remove('ch'));
+/* ====== CURSOR (desktop only) ====== */
+const isMouse = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+if(isMouse){
+  const cur=document.getElementById('cursor');
+  const ring=document.getElementById('cursor-ring');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+  (function animC(){
+    rx+=(mx-rx)*.12;ry+=(my-ry)*.12;
+    cur.style.left=mx+'px';cur.style.top=my+'px';
+    ring.style.left=rx+'px';ring.style.top=ry+'px';
+    requestAnimationFrame(animC);
+  })();
+  document.querySelectorAll('a,button,.exp-card,.callout,.skill-category').forEach(el=>{
+    el.addEventListener('mouseenter',()=>document.body.classList.add('ch'));
+    el.addEventListener('mouseleave',()=>document.body.classList.remove('ch'));
+  });
+}
+
+/* ====== MOBILE MENU ====== */
+const hamburger=document.getElementById('hamburger');
+const mobileMenu=document.getElementById('mobile-menu');
+const mobileClose=document.getElementById('mobile-close');
+hamburger?.addEventListener('click',()=>{mobileMenu.classList.add('open');});
+mobileClose?.addEventListener('click',()=>{mobileMenu.classList.remove('open');});
+document.querySelectorAll('.mobile-nav-link').forEach(a=>{
+  a.addEventListener('click',()=>mobileMenu.classList.remove('open'));
 });
 
 /* ====== LOADER ====== */
@@ -763,10 +875,12 @@ window.addEventListener('scroll',updateNav);
 
 /* ====== MOUSE PARALLAX ON RESUME PAPER ====== */
 let hmx=0,hmy=0;
-document.addEventListener('mousemove',e=>{
-  hmx=(e.clientX/window.innerWidth-.5)*2;
-  hmy=(e.clientY/window.innerHeight-.5)*2;
-});
+if(isMouse){
+  document.addEventListener('mousemove',e=>{
+    hmx=(e.clientX/window.innerWidth-.5)*2;
+    hmy=(e.clientY/window.innerHeight-.5)*2;
+  });
+}
 function animResumePaper(){
   const tiltX=hmy*-10;
   const tiltY=hmx*14;
@@ -776,14 +890,18 @@ function animResumePaper(){
   requestAnimationFrame(animResumePaper);
 }
 
+/* ====== DETECT MOBILE ====== */
+const isMobile=()=>window.innerWidth<=768;
+
 /* ====== MAIN INIT ====== */
 function initAll(){
   animResumePaper();
   initHero();
   initAbout();
-  initProjects();
+  if(!isMobile()) initProjects();
+  initMobileProjects();
   initContact();
-  ScrollTrigger.refresh()
+  ScrollTrigger.refresh();
 }
 
 /* ====== HERO ====== */
@@ -796,12 +914,10 @@ function initHero(){
   const rscene=document.getElementById('resume-scene');
   const home=document.getElementById('home');
 
-  // Initial hidden state
   gsap.set([hleft,hright,htagline,hcta],{opacity:0});
   gsap.set(hname,{y:80,opacity:0});
   gsap.set(rscene,{opacity:0,y:40});
 
-  // Entrance animation
   const tl=gsap.timeline({delay:.15});
   tl.to(hname,{y:0,opacity:1,duration:1,ease:'power3.out'})
     .to(rscene,{opacity:1,y:0,duration:.9,ease:'power2.out'},'-=0.5')
@@ -809,110 +925,44 @@ function initHero(){
     .to(hright,{opacity:1,x:0,duration:.7,ease:'power2.out'},'-=0.6')
     .to([htagline,hcta],{opacity:1,duration:.5,stagger:.1,ease:'power2.out'},'-=0.3');
 
-  /* --- EXIT PARALLAX --- each element leaves in a different direction */
-  // headline exits upward fast
-  gsap.fromTo(hname,
-    {y:0,opacity:1},
-    {
-      y:-130,
-      opacity:0,
-      ease:'none',
-      scrollTrigger:{
-        trigger:home,
-        start:'40% top',
-        end:'bottom top',
-        scrub:1.1
-      }
-  });
-  // left meta exits left
-  gsap.fromTo(hleft,
-  {y:0,opacity:1},
-  {
-    x:-160,opacity:0,ease:'none',
-    scrollTrigger:{trigger:home,start:'40% top',end:'bottom top',scrub:1.3}
-  });
-  // right meta exits right
-  gsap.fromTo(hright,
-  {y:0,opacity:1},
-  {
-    x:160,opacity:0,ease:'none',
-    scrollTrigger:{trigger:home,start:'40% top',end:'bottom top',scrub:1.3}
-  });
-  // tagline exits bottom-left
-  gsap.fromTo(htagline,
-  {y:0,opacity:1},
-  {
-    x:-90,y:80,opacity:0,ease:'none',
-    scrollTrigger:{trigger:home,start:'40% top',end:'bottom top',scrub:1.5}
-  });
-  // cta exits bottom-right
-  gsap.fromTo(hcta,
-  {y:0,opacity:1},
-  {
-    x:90,y:80,opacity:0,ease:'none',
-    scrollTrigger:{trigger:home,start:'40% top',end:'bottom top',scrub:1.5}
-  });
-  // resume scene rises up — appears to transition into about (back of about page)
-  gsap.fromTo(rscene,
-  {y:0,opacity:1},
-  {
-    y:-120,ease:'none',
-    scrollTrigger:{trigger:home,start:'40% top',end:'bottom top',scrub:.9}
-  });
+  gsap.fromTo(hname,{y:0,opacity:1},{y:-130,opacity:0,ease:'none',scrollTrigger:{trigger:home,start:'40% top',end:'bottom top',scrub:1.1}});
+  gsap.fromTo(hleft,{y:0,opacity:1},{x:-160,opacity:0,ease:'none',scrollTrigger:{trigger:home,start:'40% top',end:'bottom top',scrub:1.3}});
+  gsap.fromTo(hright,{y:0,opacity:1},{x:160,opacity:0,ease:'none',scrollTrigger:{trigger:home,start:'40% top',end:'bottom top',scrub:1.3}});
+  gsap.fromTo(htagline,{y:0,opacity:1},{x:-90,y:80,opacity:0,ease:'none',scrollTrigger:{trigger:home,start:'40% top',end:'bottom top',scrub:1.5}});
+  gsap.fromTo(hcta,{y:0,opacity:1},{x:90,y:80,opacity:0,ease:'none',scrollTrigger:{trigger:home,start:'40% top',end:'bottom top',scrub:1.5}});
+  gsap.fromTo(rscene,{y:0,opacity:1},{y:-120,ease:'none',scrollTrigger:{trigger:home,start:'40% top',end:'bottom top',scrub:.9}});
 }
 
 /* ====== ABOUT ====== */
 function initAbout(){
   const about=document.getElementById('about');
+  gsap.fromTo('#about-bg',{y:60},{y:-80,ease:'none',scrollTrigger:{trigger:about,start:'top bottom',end:'bottom top',scrub:2}});
 
-  // background text parallax
-  gsap.fromTo('#about-bg',{y:60},{
-    y:-80,ease:'none',
-    scrollTrigger:{trigger:about,start:'top bottom',end:'bottom top',scrub:2}
-  });
+  const startVal=isMobile()?'top 90%':'top 82%';
+  gsap.from('#al-label',{y:-50,opacity:0,duration:.8,scrollTrigger:{trigger:'#about-left',start:startVal,toggleActions:'play none none reverse'}});
+  gsap.from('#al-h',{x:-80,opacity:0,duration:1,scrollTrigger:{trigger:'#about-left',start:'top 78%',toggleActions:'play none none reverse'}});
+  gsap.from('#al-body',{y:60,opacity:0,duration:.9,scrollTrigger:{trigger:'#about-left',start:'top 72%',toggleActions:'play none none reverse'}});
+  gsap.from('#exp1',{x:isMobile()?0:80,y:isMobile()?40:0,opacity:0,duration:.9,scrollTrigger:{trigger:'#exp1',start:'top 85%',toggleActions:'play none none reverse'}});
+  gsap.from('#edu1',{y:60,opacity:0,duration:.8,scrollTrigger:{trigger:'#exp1',start:'top 88%',toggleActions:'play none none reverse'}});
+  gsap.from('#ar-skills-title',{y:-40,opacity:0,duration:.8,scrollTrigger:{trigger:'#about-right',start:'top 85%',toggleActions:'play none none reverse'}});
+  gsap.from(['#sk1','#sk2','#sk3','#sk4'],{x:60,opacity:0,duration:.7,stagger:.13,scrollTrigger:{trigger:'#about-right',start:'top 80%',toggleActions:'play none none reverse'}});
+  gsap.from('#ar-certs',{y:60,opacity:0,duration:.9,scrollTrigger:{trigger:'#ar-certs',start:'top 85%',toggleActions:'play none none reverse'}});
 
-  /* ENTRANCE — each from a different direction */
-  gsap.from('#al-label',{y:-50,opacity:0,duration:.8,
-    scrollTrigger:{trigger:'#about-left',start:'top 82%',toggleActions:'play none none reverse'}
-  });
-  gsap.from('#al-h',{x:-80,opacity:0,duration:1,
-    scrollTrigger:{trigger:'#about-left',start:'top 78%',toggleActions:'play none none reverse'}
-  });
-  gsap.from('#al-body',{y:60,opacity:0,duration:.9,
-    scrollTrigger:{trigger:'#about-left',start:'top 72%',toggleActions:'play none none reverse'}
-  });
-  gsap.from('#exp1',{x:80,opacity:0,duration:.9,
-    scrollTrigger:{trigger:'#exp1',start:'top 82%',toggleActions:'play none none reverse'}
-  });
-  gsap.from('#edu1',{y:60,opacity:0,duration:.8,
-    scrollTrigger:{trigger:'#exp1',start:'top 85%',toggleActions:'play none none reverse'}
-  });
-  gsap.from('#ar-skills-title',{y:-40,opacity:0,duration:.8,
-    scrollTrigger:{trigger:'#about-right',start:'top 82%',toggleActions:'play none none reverse'}
-  });
-  gsap.from(['#sk1','#sk2','#sk3','#sk4'],{x:60,opacity:0,duration:.7,stagger:.13,
-    scrollTrigger:{trigger:'#about-right',start:'top 76%',toggleActions:'play none none reverse'}
-  });
-  gsap.from('#ar-certs',{y:60,opacity:0,duration:.9,
-    scrollTrigger:{trigger:'#ar-certs',start:'top 60%',toggleActions:'play none none reverse'}
-  });
+  if(!isMobile()){
+    gsap.to('#about-left',{x:-110,opacity:0,ease:'none',scrollTrigger:{trigger:about,start:'70% top',end:'bottom top',scrub:1.2}});
+    gsap.to('#about-right',{x:110,opacity:0,ease:'none',scrollTrigger:{trigger:about,start:'70% top',end:'bottom top',scrub:1.2}});
+    gsap.to('#about-bg',{scale:1.2,opacity:0,ease:'none',scrollTrigger:{trigger:about,start:'75% top',end:'bottom top',scrub:1}});
+  }
+}
 
-  /* EXIT — left side exits left, right side exits right */
-  gsap.to('#about-left',{
-    x:-110,opacity:0,ease:'none',
-    scrollTrigger:{trigger:about,start:'70% top',end:'bottom top',scrub:1.2}
-  });
-  gsap.to('#about-right',{
-    x:110,opacity:0,ease:'none',
-    scrollTrigger:{trigger:about,start:'70% top',end:'bottom top',scrub:1.2}
-  });
-  gsap.to('#about-bg',{
-    scale:1.2,opacity:0,ease:'none',
-    scrollTrigger:{trigger:about,start:'75% top',end:'bottom top',scrub:1}
+/* ====== MOBILE PROJECTS ANIMATION ====== */
+function initMobileProjects(){
+  document.querySelectorAll('.mobile-project-card').forEach((card,i)=>{
+    gsap.from(card,{y:60,opacity:0,duration:.8,delay:i*.1,scrollTrigger:{trigger:card,start:'top 88%',toggleActions:'play none none reverse'}});
   });
 }
 
-/* ====== PROJECTS HORIZONTAL SCROLL ====== */
+/* ====== PROJECTS HORIZONTAL SCROLL (desktop only) ====== */
 function initProjects(){
   const track=document.getElementById('projects-track');
   const container=document.getElementById('projects-scroll-container');
@@ -920,14 +970,12 @@ function initProjects(){
   const slideW=window.innerWidth;
   let currentSlide=-1;
 
-  // Callout animation helpers
   const callouts=[
     ['#c1-1','#c1-2','#c1-3','#c1-4'],
     ['#c2-1','#c2-2','#c2-3','#c2-4'],
     ['#c3-1','#c3-2','#c3-3','#c3-4'],
     ['#c4-1','#c4-2','#c4-3','#c4-4'],
   ];
-  // entrance directions for callouts: top-left, top-right, bottom-left, bottom-right
   const cDirs=[
     [{x:-30,y:-20},{x:30,y:-20},{x:-30,y:20},{x:30,y:20}],
     [{x:-30,y:-20},{x:30,y:-20},{x:-30,y:20},{x:30,y:20}],
@@ -941,10 +989,7 @@ function initProjects(){
         const el=document.querySelector(sel);
         if(!el) return;
         if(gi===idx){
-          gsap.fromTo(el,
-            {opacity:0,x:cDirs[gi][si].x,y:cDirs[gi][si].y},
-            {opacity:1,x:0,y:0,duration:.55,delay:si*.1,ease:'power2.out'}
-          );
+          gsap.fromTo(el,{opacity:0,x:cDirs[gi][si].x,y:cDirs[gi][si].y},{opacity:1,x:0,y:0,duration:.55,delay:si*.1,ease:'power2.out'});
         } else {
           gsap.to(el,{opacity:0,x:cDirs[gi][si].x*.7,y:cDirs[gi][si].y*.7,duration:.3,ease:'power2.in'});
         }
@@ -953,100 +998,53 @@ function initProjects(){
   }
 
   function slideEntrance(idx){
-    
-    if(idx===0){
-      gsap.fromTo('#ptb1',{x:-90,opacity:0},{x:0,opacity:1,duration:.75,ease:'power3.out'});
-      gsap.fromTo('#laptop-1',{y:120,opacity:0},{y:0,opacity:1,duration:.85,ease:'power3.out',delay:.1});
-      gsap.fromTo('#sbg1',{x:80,opacity:.04},{x:0,opacity:.04,duration:1,ease:'power2.out'});
-    }
-    if(idx===1){
-      gsap.fromTo('#ptb2',{x:90,opacity:0},{x:0,opacity:1,duration:.75,ease:'power3.out'});
-      gsap.fromTo('#laptop-2',{y:-100,opacity:0},{y:0,opacity:1,duration:.85,ease:'power3.out',delay:.1});
-      gsap.fromTo('#sbg2',{x:-80,opacity:0},{x:0,opacity:.04,duration:1,ease:'power2.out'});
-    }
-    if(idx===2){
-      gsap.fromTo('#ptb3',{x:-90,opacity:0},{x:0,opacity:1,duration:.75,ease:'power3.out'});
-      gsap.fromTo('#laptop-3',{y:120,opacity:0},{y:0,opacity:1,duration:.85,ease:'power3.out',delay:.1});
-      gsap.fromTo('#sbg3',{x:80,opacity:.04},{x:0,opacity:.04,duration:1,ease:'power2.out'});
-    }
-
-    if(idx===3){
-      gsap.fromTo('#ptb4',{x:90,opacity:0},{x:0,opacity:1,duration:.75,ease:'power3.out'});
-      gsap.fromTo('#laptop-4',{y:-100,opacity:0},{y:0,opacity:1,duration:.85,ease:'power3.out',delay:.1});
-      gsap.fromTo('#sbg4',{x:-80,opacity:0},{x:0,opacity:.04,duration:1,ease:'power2.out'});
-    }
+    const directions=[
+      {ptbX:-90,laptopY:120,sbgX:80},
+      {ptbX:90,laptopY:-100,sbgX:-80},
+      {ptbX:-90,laptopY:120,sbgX:80},
+      {ptbX:90,laptopY:-100,sbgX:-80}
+    ];
+    const d=directions[idx];
+    const ptbId=`#ptb${idx+1}`,laptopId=`#laptop-${idx+1}`,sbgId=`#sbg${idx+1}`;
+    gsap.fromTo(ptbId,{x:d.ptbX,opacity:0},{x:0,opacity:1,duration:.75,ease:'power3.out'});
+    gsap.fromTo(laptopId,{y:d.laptopY,opacity:0},{y:0,opacity:1,duration:.85,ease:'power3.out',delay:.1});
+    gsap.fromTo(sbgId,{x:d.sbgX,opacity:0},{x:0,opacity:.04,duration:1,ease:'power2.out'});
     showCallouts(idx);
   }
 
   function slideExit(idx){
-    if(idx===0){
-      gsap.to('#ptb1',{x:-90,opacity:0,duration:.4,ease:'power2.in'});
-      gsap.to('#laptop-1',{y:60,opacity:0,duration:.5,ease:'power2.in'});
-    }
-    if(idx===1){
-      gsap.to('#ptb2',{x:90,opacity:0,duration:.4,ease:'power2.in'});
-      gsap.to('#laptop-2',{y:-60,opacity:0,duration:.5,ease:'power2.in'});
-    }
-    if(idx===2){
-      gsap.to('#ptb3',{x:-90,opacity:0,duration:.4,ease:'power2.in'});
-      gsap.to('#laptop-3',{y:60,opacity:0,duration:.5,ease:'power2.in'});
-    }
-
-    if(idx===3){
-      gsap.to('#ptb4',{x:90,opacity:0,duration:.4,ease:'power2.in'});
-      gsap.to('#laptop-4',{y:-60,opacity:0,duration:.5,ease:'power2.in'});
-    }
+    const ptbId=`#ptb${idx+1}`,laptopId=`#laptop-${idx+1}`;
+    const exitDirs=[{px:-90,ly:60},{px:90,ly:-60},{px:-90,ly:60},{px:90,ly:-60}];
+    const d=exitDirs[idx];
+    gsap.to(ptbId,{x:d.px,opacity:0,duration:.4,ease:'power2.in'});
+    gsap.to(laptopId,{y:d.ly,opacity:0,duration:.5,ease:'power2.in'});
   }
 
-  // Laptop mouse tilt
-  document.addEventListener('mousemove',e=>{
-    const px=(e.clientX/window.innerWidth-.5)*2;
-    const py=(e.clientY/window.innerHeight-.5)*2;
-    ['laptop-1','laptop-2','laptop-3','laptop-4'].forEach(id=>{
-      const el=document.getElementById(id);
-      if(el) el.style.transform=`perspective(1400px) rotateY(${px*7}deg) rotateX(${-py*3.5}deg)`;
+  // Laptop mouse tilt (desktop only)
+  if(isMouse){
+    document.addEventListener('mousemove',e=>{
+      const px=(e.clientX/window.innerWidth-.5)*2;
+      const py=(e.clientY/window.innerHeight-.5)*2;
+      ['laptop-1','laptop-2','laptop-3','laptop-4'].forEach(id=>{
+        const el=document.getElementById(id);
+        if(el) el.style.transform=`perspective(1400px) rotateY(${px*7}deg) rotateX(${-py*3.5}deg)`;
+      });
     });
-  });
+  }
 
-  // The horizontal scroll trigger
-  // We pin the sticky container. initAll
-  // The scroll distance is 2×100vw (so slide-1 to slide-2 uses 100vw of scroll)
-  // Then we add another 100vw as buffer at the end before contact starts.
-  gsap.set([
-    '#ptb1','#laptop-1',
-    '#ptb2','#laptop-2',
-    '#ptb3','#laptop-3',
-    '#ptb4','#laptop-4'
-  ],{
-    opacity:0,
-    y:80
-  });
-  
+  gsap.set(['#ptb1','#laptop-1','#ptb2','#laptop-2','#ptb3','#laptop-3','#ptb4','#laptop-4'],{opacity:0,y:80});
 
   ScrollTrigger.create({
-    trigger: container,
-    start: 'top top',
-    end: ()=>`+=${slideW*(totalSlides-0.2)}`,
-    pin: '#projects-sticky',
-    
-    scrub: 1.2,
-    // snap:{
-    //   snapTo: (p)=>{
-    //     // snap to 0 or 0.5 (each slide is 50% of total scroll)
-    //     const snaps=[0,0.5,1];
-    //     return snaps.reduce((a,b)=>Math.abs(b-p)<Math.abs(a-p)?b:a);
-    //   },
-    //   duration:.3,
-    //   ease:'power2.inOut'
-    // },
+    trigger:container,
+    start:'top top',
+    end:()=>`+=${slideW*(totalSlides-0.2)}`,
+    pin:'#projects-sticky',
+    scrub:1.2,
     onUpdate(self){
-      // Map progress [0..1] across 2 slides
-      // slide-1 = progress 0–0.5, slide-2 = progress 0.5–1
       const maxX=(totalSlides-1)*slideW;
       const rawX=-self.progress*totalSlides*slideW;
       const clampedX=Math.max(-maxX,Math.min(0,rawX));
       track.style.transform=`translateX(${clampedX}px)`;
-
       const slideIdx=Math.round(-clampedX/slideW);
       const clamped=Math.max(0,Math.min(totalSlides-1,slideIdx));
       if(clamped!==currentSlide){
@@ -1055,62 +1053,58 @@ function initProjects(){
         slideEntrance(clamped);
       }
     },
-    onEnter:()=>{ slideEntrance(0); },
-    onLeaveBack:()=>{ showCallouts(-1);
-      gsap.fromTo('#ptb1',{x:0,opacity:1},{x:-90,opacity:0,duration:.75,ease:'power3.out'});
-      gsap.fromTo('#laptop-1',{y:0,opacity:1},{y:120,opacity:0,duration:.85,ease:'power3.out',delay:.1});
-     
-
+    onEnter:()=>{slideEntrance(0);},
+    onLeaveBack:()=>{
+      showCallouts(-1);
+      gsap.to('#ptb1',{x:-90,opacity:0,duration:.4,ease:'power2.in'});
+      gsap.to('#laptop-1',{y:60,opacity:0,duration:.5,ease:'power2.in'});
       currentSlide=0;
-     }
+    }
   });
 
-  // Slide bg text drifts opposite to scroll
-  gsap.to('#sbg1',{
-    x:-100,ease:'none',
-    scrollTrigger:{trigger:container,start:'top top',end:`+=${slideW*totalSlides}`,scrub:2}
-  });
-  gsap.to('#sbg2',{
-    x:100,ease:'none',
-    scrollTrigger:{trigger:container,start:'top top',end:`+=${slideW*totalSlides}`,scrub:2}
-  });
+  gsap.to('#sbg1',{x:-100,ease:'none',scrollTrigger:{trigger:container,start:'top top',end:`+=${slideW*totalSlides}`,scrub:2}});
+  gsap.to('#sbg2',{x:100,ease:'none',scrollTrigger:{trigger:container,start:'top top',end:`+=${slideW*totalSlides}`,scrub:2}});
 }
 
 /* ====== CONTACT ====== */
 function initContact(){
   const contact=document.getElementById('contact');
-
-  // label from top
-  gsap.from('#cl-label',{y:-50,opacity:0,duration:.8,
-    scrollTrigger:{trigger:contact,start:'top 80%',toggleActions:'play none none reverse'}
-  });
-  // headline from left
-  gsap.from('#cl-h',{x:-80,opacity:0,duration:1,
-    scrollTrigger:{trigger:contact,start:'top 76%',toggleActions:'play none none reverse'}
-  });
-  // body from bottom
-  gsap.from('#cl-body',{y:50,opacity:0,duration:.8,
-    scrollTrigger:{trigger:contact,start:'top 72%',toggleActions:'play none none reverse'}
-  });
-  // links stagger from left
-  gsap.from('#cl-links .contact-link',{x:-60,opacity:0,duration:.7,stagger:.12,
-    scrollTrigger:{trigger:'#cl-links',start:'top 82%',toggleActions:'play none none reverse'}
-  });
-  // form from right
-  gsap.from('#contact-right',{x:80,opacity:0,duration:1,
-    scrollTrigger:{trigger:contact,start:'top 74%',toggleActions:'play none none reverse'}
-  });
-  // bg text drift
-  gsap.fromTo('.contact-bg-text',{y:60},{
-    y:-30,ease:'none',
-    scrollTrigger:{trigger:contact,start:'top bottom',end:'bottom top',scrub:2}
-  });
+  gsap.from('#cl-label',{y:-50,opacity:0,duration:.8,scrollTrigger:{trigger:contact,start:'top 80%',toggleActions:'play none none reverse'}});
+  gsap.from('#cl-h',{x:-80,opacity:0,duration:1,scrollTrigger:{trigger:contact,start:'top 76%',toggleActions:'play none none reverse'}});
+  gsap.from('#cl-body',{y:50,opacity:0,duration:.8,scrollTrigger:{trigger:contact,start:'top 72%',toggleActions:'play none none reverse'}});
+  gsap.from('#cl-links .contact-link',{x:-60,opacity:0,duration:.7,stagger:.12,scrollTrigger:{trigger:'#cl-links',start:'top 85%',toggleActions:'play none none reverse'}});
+  gsap.from('#contact-right',{x:isMobile()?0:80,y:isMobile()?60:0,opacity:0,duration:1,scrollTrigger:{trigger:contact,start:'top 74%',toggleActions:'play none none reverse'}});
+  gsap.fromTo('.contact-bg-text',{y:60},{y:-30,ease:'none',scrollTrigger:{trigger:contact,start:'top bottom',end:'bottom top',scrub:2}});
 }
 
 /* ====== RESUME DOWNLOAD ====== */
-document.getElementById('resume-btn').addEventListener('click',e=>{
+document.getElementById('resume-btn')?.addEventListener('click',e=>{
   e.preventDefault();
   alert('Add your resume PDF link here!');
+});
+
+/* ====== HANDLE RESIZE ====== */
+let resizeTimer;
+window.addEventListener('resize',()=>{
+  clearTimeout(resizeTimer);
+  resizeTimer=setTimeout(()=>{ScrollTrigger.refresh();},300);
+});
+
+window.addEventListener("resize", () => {
+
+  ScrollTrigger.refresh();
+
+  const paper = document.getElementById("resume-paper");
+  const scene = document.getElementById("resume-scene");
+
+  if (window.innerWidth <= 768) {
+    scene.style.left = "30%";
+    scene.style.transform = "translateX(-50%)";
+  } else {
+    scene.style.left = "50%";
+    scene.style.transform = "translateX(-50%)";
+  }
+
 });
 </script>
 </body>
